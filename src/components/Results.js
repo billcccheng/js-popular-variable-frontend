@@ -12,8 +12,25 @@ class Results extends Component {
     }
   }
 
-  componentWillMount() {
-    Api.fetchProjectVariables(this.props.selectedProjects)
+  componentWillMount(){
+    this.fetchVariableData(this.props.selectedProjects);
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.fetchVariableData(nextProps.selectedProjects);
+  }
+
+  shouldComponentUpdate(nextProp, nextState){
+    if(nextProp.update)
+      return true;
+    return false;
+  }
+
+  fetchVariableData(selectedProjects){
+    this.setState({
+      showResults: false
+    });
+    Api.fetchProjectVariables(selectedProjects)
       .then(res => {
         this.setState({
           results: res.data,

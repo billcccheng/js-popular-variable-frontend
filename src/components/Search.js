@@ -10,8 +10,8 @@ class Search extends Component {
     this.state = {
       openSearchResults: false,
       openCheckBox: false,
+      updateResultsComp: false,
       projectNames: [],
-      checkedAll: false,
       selectedProjects: []
     }
     this.submitCheckedBox = this.submitCheckedBox.bind(this);
@@ -35,12 +35,18 @@ class Search extends Component {
   submitCheckedBox(){
     if(this.state.selectedProjects.length > 0){
       this.setState({
+        updateResultsComp: true,
         openSearchResults: true
       });
     }
   }
 
   toggleChange(checkedProject){
+    if(this.state.updateResultsComp){
+      this.setState({
+        updateResultsComp: false
+      });
+    }
     const indexOfProject = this.state.selectedProjects.indexOf(checkedProject.name);
     if(indexOfProject !== -1){
       this.setState({
@@ -78,7 +84,7 @@ class Search extends Component {
           <button onClick={this.submitCheckedBox}>
             Submit
           </button>
-          {this.state.openSearchResults ? <Results selectedProjects={this.state.selectedProjects}/> : null}
+          {this.state.openSearchResults ? <Results update={this.state.updateResultsComp} selectedProjects={this.state.selectedProjects}/> : null}
         </div>
       );
     }
