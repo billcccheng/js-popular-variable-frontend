@@ -1,0 +1,9 @@
+.checkbox-grid li {
+  display: block;
+  float: left;
+  width: 25%;
+}
+
+.checkbox-grid {
+  margin-bottom: 50px;
+}
