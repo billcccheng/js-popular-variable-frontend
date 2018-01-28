@@ -6,7 +6,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-				<h1 className="App-title"> Find JavaScript Variable </h1>
+				<h1 className="App-title"> Find JavaScript Variables </h1>
         <Search></Search>
       </div>
     );
