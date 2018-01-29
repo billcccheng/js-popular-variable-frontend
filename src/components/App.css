@@ -2,7 +2,7 @@
   background:#efefef;
   height:100%;
   margin:50px;
-  padding:50px;
+  padding:45px;
 }
 
 .App-title {
@@ -17,6 +17,11 @@
 
 .App-intro {
   font-size: large;
+}
+
+.App-note {
+  color: #ED4337;
+  margin-left:40px;
 }
 
 button {

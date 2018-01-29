@@ -68,6 +68,7 @@ class Search extends Component {
       return(
         <div className="Search">
           <ul className="checkbox-grid">
+            <h2>Popluar Javascript Repo:</h2>
             {this.state.projectNames.map(name => (
                 <li key={name}><label>
                   <input

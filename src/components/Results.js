@@ -10,7 +10,7 @@ class Results extends Component {
       results: {},
       filterInput: ""
     }
-    this.submitFilter = this.submitFilter.bind(this);
+    this.userSubmitFilter = this.userSubmitFilter.bind(this);
   }
 
   componentWillMount(){
@@ -22,17 +22,16 @@ class Results extends Component {
   }
 
   shouldComponentUpdate(nextProp, nextState){
-    if(nextProp.update)
+    if(nextProp.update){
       return true;
+    }
     return false;
   }
 
   fetchVariableData(selectedProjects){
     Api.fetchProjectVariables(selectedProjects)
       .then(res => {
-        this.setState({
-          results: res.data,
-        });
+        this.filterResults(res.data);
       })
       .catch((err) => {
         this.setState({
@@ -41,30 +40,35 @@ class Results extends Component {
       });
   }
 
-  changeFilterInput(event){
+  userSubmitFilter(event){
     let newfilterInput = event.target.value.trim();
     if(this.state.filterInput !== newfilterInput){
       this.setState({
         filterInput: newfilterInput
       });
     }
+    if(event.key === 'Enter'){
+      this.filterResults(this.state.results);
+    }
   }
 
-  submitFilter(event){
-    const userInput = this.state.filterInput;
-    if(event.key === 'Enter'){
-      console.log("ENTER");
-      let variableRes = this.state.results;
-      let newVarRes = {};
-      Object.keys(variableRes).forEach(key=>{
-        newVarRes[key] = Object.keys(variableRes[key]).filter(subKey => {
-          return subKey.toLowerCase().includes(userInput);
-        }).map(obj=>{
-          console.log(variableRes[key]);
-        });
-      });
-      console.log(newVarRes);
-    }
+  filterResults(variableRes){
+    const userInput = this.state.filterInput.toLowerCase();
+    let newVarRes = {};
+    Object.keys(variableRes).forEach(key=>{
+      Object.keys(variableRes[key]).filter(subKey => {
+        return subKey.toLowerCase().includes(userInput);
+      }).reduce((result, variableName) => {
+          if(!(key in newVarRes)){
+            newVarRes[key] = {};
+          }
+          newVarRes[key][variableName] = variableRes[key][variableName];
+          return newVarRes;
+      }, newVarRes);
+    });
+    this.setState({
+      results: newVarRes
+    });
   }
 
   render() {
@@ -80,22 +84,17 @@ class Results extends Component {
       });
       return(
         <div className="Results">
-						<input
-							className="filter-word"
-							type="text"
-							placeholder="keyword"
-							onChange={this.changeFilterInput.bind(this)}
-              onKeyDown={this.submitFilter}
-            />
+          <input
+            className="filter-word"
+            type="text"
+            placeholder="keyword"
+            onKeyDown={this.userSubmitFilter}
+          />
           {keys.map(key =>
               <div key={key}>
-                {key.toUpperCase()}
+                <h4 id="project-name">{key.toUpperCase()}</h4>
                 <ol>
-                  {
-                    Object.keys(variableRes[key]).map(varName =>
-                      <li key={varName}>{varName}</li>
-                    )
-                  }
+                  {Object.keys(variableRes[key]).map(varName =><li key={varName}>{varName}</li>)}
                 </ol>
               </div>
             )
