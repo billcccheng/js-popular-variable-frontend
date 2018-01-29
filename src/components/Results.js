@@ -90,8 +90,8 @@ class Results extends Component {
             onKeyDown={this.userSubmitFilter}
           />
           {keys.map(key =>
-              <div key={key}>
-                <h4 id="project-name">{key.toUpperCase()}</h4>
+              <div id="variable-results" key={key}>
+                <strong id="project-name">{key.toUpperCase()}</strong>
                 <ol>
                   {Object.keys(variableRes[key]).map(varName =><li key={varName}>{varName}</li>)}
                 </ol>

@@ -19,6 +19,11 @@ class App extends Component {
   }
 
   render() {
+    const tabs = [
+      {"ActivateComponent": React.createFactory(Home)},
+      {"ActivateComponent": React.createFactory(Search)},
+      {"ActivateComponent": React.createFactory(WordCloud)}
+    ];
     return (
       <div className="App">
 		<h1 className="App-title"> Find JavaScript Variables </h1>
@@ -29,10 +34,11 @@ class App extends Component {
               <Tab>Home</Tab>
               <Tab>Filter</Tab>
               <Tab>Word Cloud</Tab>
+              <Tab>Intersection</Tab>
             </Tabs>
           </div>
         </Router>
-        {this.state.active === 0 ? <Home/> : this.state.active === 1 ? <Search/> : <WordCloud/>}
+        {tabs[this.state.active].ActivateComponent()}
       </div>
     );
   }
