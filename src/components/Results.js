@@ -78,10 +78,9 @@ class Results extends Component {
     }else if(variableRes === 'error'){
       return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     }else{
-      let keys = [];
-      Object.keys(variableRes).forEach(key => {
-        keys.unshift(key);
-      });
+      const keys = Object.keys(variableRes).reduce((array, itm) => {
+        return array.concat(itm);
+      },[]);
       return(
         <div className="Results">
           <input

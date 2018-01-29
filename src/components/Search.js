@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Search.css';
 import Api from '../utils/Api';
+import { Button } from 'react-mdl';
 import Spinner from 'react-spinkit';
 import Results from './Results';
 
@@ -68,7 +69,7 @@ class Search extends Component {
       return(
         <div className="Search">
           <ul className="checkbox-grid">
-            <h2>Popluar Javascript Repo:</h2>
+            <h4>Popluar Javascript Repo:</h4>
             {this.state.projectNames.map(name => (
                 <li key={name}><label>
                   <input
@@ -81,9 +82,9 @@ class Search extends Component {
                 )
               )
             }
-            <button onClick={this.submitCheckedBox}>
+            <Button raised ripple id="checkBox-submit" onClick={this.submitCheckedBox}>
               Submit
-            </button>
+            </Button>
           </ul>
           {this.state.openSearchResults ? <Results update={this.state.updateResultsComp} selectedProjects={this.state.selectedProjects}/> : null}
         </div>
