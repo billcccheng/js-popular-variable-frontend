@@ -80,10 +80,10 @@ class Search extends Component {
                 )
               )
             }
+            <button onClick={this.submitCheckedBox}>
+              Submit
+            </button>
           </ul>
-          <button onClick={this.submitCheckedBox}>
-            Submit
-          </button>
           {this.state.openSearchResults ? <Results update={this.state.updateResultsComp} selectedProjects={this.state.selectedProjects}/> : null}
         </div>
       );

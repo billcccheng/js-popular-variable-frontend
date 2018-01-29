@@ -1,14 +1,19 @@
 .checkbox-grid li {
   display: block;
   float: left;
-  width: 25%;
+  width: 50%;
+  /*border-style: dotted;*/
 }
 
 .checkbox-grid {
-  margin-bottom: 50px;
+  margin-bottom: 15px;
 }
 
 .loading-symbol {
   margin: 50px 0px 0px 25px;
 }
 
+.submit-btn {
+  display: inline-block;
+  float: left;
+}

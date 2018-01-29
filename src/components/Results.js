@@ -8,8 +8,9 @@ class Results extends Component {
     super();
     this.state = {
       results: {},
-      showResults: false
+      filterInput: ""
     }
+    this.submitFilter = this.submitFilter.bind(this);
   }
 
   componentWillMount(){
@@ -27,43 +28,71 @@ class Results extends Component {
   }
 
   fetchVariableData(selectedProjects){
-    this.setState({
-      showResults: false
-    });
     Api.fetchProjectVariables(selectedProjects)
       .then(res => {
         this.setState({
           results: res.data,
-          showResults: true
         });
       })
       .catch((err) => {
         this.setState({
-          showResults: 'error'
+          results: 'error'
         });
       });
   }
 
+  changeFilterInput(event){
+    let newfilterInput = event.target.value.trim();
+    if(this.state.filterInput !== newfilterInput){
+      this.setState({
+        filterInput: newfilterInput
+      });
+    }
+  }
+
+  submitFilter(event){
+    const userInput = this.state.filterInput;
+    if(event.key === 'Enter'){
+      console.log("ENTER");
+      let variableRes = this.state.results;
+      let newVarRes = {};
+      Object.keys(variableRes).forEach(key=>{
+        newVarRes[key] = Object.keys(variableRes[key]).filter(subKey => {
+          return subKey.toLowerCase().includes(userInput);
+        }).map(obj=>{
+          console.log(variableRes[key]);
+        });
+      });
+      console.log(newVarRes);
+    }
+  }
+
   render() {
-    if(!this.state.showResults){
+    const variableRes = this.state.results;
+    if(Object.keys(variableRes) === 0){
       return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
-    }else if(this.state.showResults === 'error'){
-      return(<div style={{color:'red'}}>An Error Occured...Please try again later.</div>);
+    }else if(variableRes === 'error'){
+      return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     }else{
-      //let numberOfData = 0;
       let keys = [];
-      let varResults = this.state.results;
-      Object.keys(varResults).forEach(key => {
+      Object.keys(variableRes).forEach(key => {
         keys.unshift(key);
       });
       return(
-        <div>
+        <div className="Results">
+						<input
+							className="filter-word"
+							type="text"
+							placeholder="keyword"
+							onChange={this.changeFilterInput.bind(this)}
+              onKeyDown={this.submitFilter}
+            />
           {keys.map(key =>
               <div key={key}>
-                {key}
+                {key.toUpperCase()}
                 <ol>
                   {
-                    Object.keys(varResults[key]).map(varName =>
+                    Object.keys(variableRes[key]).map(varName =>
                       <li key={varName}>{varName}</li>
                     )
                   }

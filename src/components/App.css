@@ -1,5 +1,4 @@
 .App {
-  /*text-align: center;*/
   background:#efefef;
   height:100%;
   margin:50px;
@@ -18,5 +17,12 @@
 
 .App-intro {
   font-size: large;
+}
+
+button {
+  color:#050;
+  background-color:#fed;
+  border:1px solid;
+  margin:5px 0px 5px 0px;
 }
 
