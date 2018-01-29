@@ -9,7 +9,6 @@
     "axios": "^0.17.1",
     "material-ui": "^1.0.0-beta.30",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "react-mdl": "^1.11.0",
     "react-router-dom": "^4.2.2",
     "react-spinkit": "^3.0.0"

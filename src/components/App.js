@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Home from './Home';
 import Search from './Search';
@@ -7,6 +7,17 @@ import WordCloud from './WordCloud';
 import './App.css';
 
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      active: 0
+    }
+  }
+
+  onChange(id){
+    this.setState({ active: id });
+  }
+
   render() {
     return (
       <div className="App">
@@ -14,22 +25,14 @@ class App extends Component {
         <div className="App-note"> Note: API server is hosted on HEROKU so it may take some time to boot up the server if the server is sleeping.</div>
        <Router>
           <div>
-            <div>
-              <Tabs ripple>
-                <Tab component={Link} to="/home">Home</Tab>
-                <Tab component={Link} to="/search">Filter</Tab>
-              </Tabs>
-            </div>
-            <div className="navigation-link-box">
-              <Link className="navigation-link" to="/home">Home</Link>
-              <Link className="navigation-link" to="/search">Filter</Link>
-              <Link className="navigation-link" to="/wordcloud">Word Cloud</Link>
-            </div>
-            <Route path="/home" component={Home}/>
-            <Route path="/search" component={Search}/>
-            <Route path="/wordcloud" component={WordCloud}/>
+            <Tabs ripple onChange = {this.onChange.bind(this)}>
+              <Tab>Home</Tab>
+              <Tab>Filter</Tab>
+              <Tab>Word Cloud</Tab>
+            </Tabs>
           </div>
         </Router>
+        {this.state.active === 0 ? <Home/> : this.state.active === 1 ? <Search/> : <WordCloud/>}
       </div>
     );
   }
