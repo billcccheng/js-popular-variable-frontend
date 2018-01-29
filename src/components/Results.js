@@ -3,7 +3,7 @@ import Api from '../utils/Api';
 import Spinner from 'react-spinkit';
 import './Results.css'
 
-class Results extends Component {
+class Results extends Component{
   constructor(){
     super();
     this.state = {
@@ -71,7 +71,7 @@ class Results extends Component {
     });
   }
 
-  render() {
+  render(){
     const variableRes = this.state.results;
     if(Object.keys(variableRes) === 0){
       return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);

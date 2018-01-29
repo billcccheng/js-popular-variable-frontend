@@ -5,7 +5,7 @@ import { Button } from 'react-mdl';
 import Spinner from 'react-spinkit';
 import Results from './Results';
 
-class Search extends Component {
+class Search extends Component{
   constructor(){
     super();
     this.state = {
@@ -18,7 +18,7 @@ class Search extends Component {
     this.submitCheckedBox = this.submitCheckedBox.bind(this);
   }
 
-  componentWillMount() {
+  componentWillMount(){
     Api.fetchProjectNames()
       .then((res) => {
         this.setState({

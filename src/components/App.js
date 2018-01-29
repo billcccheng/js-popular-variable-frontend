@@ -6,7 +6,7 @@ import Search from './Search';
 import WordCloud from './WordCloud';
 import './App.css';
 
-class App extends Component {
+class App extends Component{
   constructor(){
     super();
     this.state = {
@@ -18,7 +18,7 @@ class App extends Component {
     this.setState({ active: id });
   }
 
-  render() {
+  render(){
     const tabs = [
       {"ActivateComponent": React.createFactory(Home)},
       {"ActivateComponent": React.createFactory(Search)},
