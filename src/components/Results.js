@@ -57,13 +57,11 @@ class Results extends Component{
     let updatedResults = {};
     const projectNames = Object.keys(results);
     projectNames.forEach(projectName => {
+      updatedResults[projectName] = {};
       const variableNames = Object.keys(results[projectName]);
       variableNames.filter(variableName => {
         return variableName.toLowerCase().includes(userInput);
       }).map((variableName) => {
-        if(!(projectName in updatedResults)){
-          updatedResults[projectName] = {};
-        }
         updatedResults[projectName][variableName] = results[projectName][variableName];
         return updatedResults;
       });
