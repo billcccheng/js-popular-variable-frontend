@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Home from './Home';
 import Search from './Search';

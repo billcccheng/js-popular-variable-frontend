@@ -9,13 +9,13 @@ class Search extends Component{
   constructor(){
     super();
     this.state = {
-      openSearchResults: false,
-      openCheckBox: false,
-      updateResultsComp: false,
+      showResultsComponent: false,
+      showCheckBox: false,
+      updateResults: false,
       projectNames: [],
       selectedProjects: []
     }
-    this.submitCheckedBox = this.submitCheckedBox.bind(this);
+    this.submitCheckbox = this.submitCheckbox.bind(this);
   }
 
   componentWillMount(){
@@ -23,29 +23,29 @@ class Search extends Component{
       .then((res) => {
         this.setState({
           projectNames: res.data,
-          openCheckBox: true
+          showCheckBox: true
         });
       })
       .catch((err) => {
         this.setState({
-          openCheckBox: 'error'
+          showCheckBox: 'error'
         });
       })
   }
 
-  submitCheckedBox(){
+  submitCheckbox(){
     if(this.state.selectedProjects.length > 0){
       this.setState({
-        updateResultsComp: true,
-        openSearchResults: true
+        updateResults: true,
+        showResultsComponent: true
       });
     }
   }
 
   toggleChange(checkedProject){
-    if(this.state.updateResultsComp){
+    if(this.state.updateResults){
       this.setState({
-        updateResultsComp: false
+        updateResults: false
       });
     }
     const indexOfProject = this.state.selectedProjects.indexOf(checkedProject.name);
@@ -61,15 +61,15 @@ class Search extends Component{
   }
 
   render(){
-    if(!this.state.openCheckBox){
+    if(!this.state.showCheckBox){
       return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
-    }else if(this.state.openCheckBox === 'error'){
+    }else if(this.state.showCheckBox === 'error'){
       return(<div style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     }else{
       return(
         <div className="Search">
           <ul className="checkbox-grid">
-            <h4>Popluar Javascript Repo:</h4>
+            <h4>Popluar Javascript Repo</h4>
             {this.state.projectNames.map(name => (
                 <li key={name}><label>
                   <input
@@ -82,11 +82,11 @@ class Search extends Component{
                 )
               )
             }
-            <Button raised ripple id="checkBox-submit" onClick={this.submitCheckedBox}>
+            <Button raised ripple id="checkBox-submit" onClick={this.submitCheckbox}>
               Submit
             </Button>
           </ul>
-          {this.state.openSearchResults ? <Results update={this.state.updateResultsComp} selectedProjects={this.state.selectedProjects}/> : null}
+          {this.state.showResultsComponent ? <Results update={this.state.updateResults} selectedProjects={this.state.selectedProjects}/> : null}
         </div>
       );
     }

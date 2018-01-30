@@ -41,10 +41,10 @@ class Results extends Component{
   }
 
   userSubmitFilter(event){
-    let newfilterInput = event.target.value.trim();
-    if(this.state.filterInput !== newfilterInput){
+    let newFilterInput = event.target.value.trim();
+    if(this.state.filterInput !== newFilterInput){
       this.setState({
-        filterInput: newfilterInput
+        filterInput: newFilterInput
       });
     }
     if(event.key === 'Enter'){
@@ -52,33 +52,36 @@ class Results extends Component{
     }
   }
 
-  filterResults(variableRes){
+  filterResults(results){
     const userInput = this.state.filterInput.toLowerCase();
-    let newVarRes = {};
-    Object.keys(variableRes).forEach(key=>{
-      Object.keys(variableRes[key]).filter(subKey => {
-        return subKey.toLowerCase().includes(userInput);
-      }).reduce((result, variableName) => {
-          if(!(key in newVarRes)){
-            newVarRes[key] = {};
-          }
-          newVarRes[key][variableName] = variableRes[key][variableName];
-          return newVarRes;
-      }, newVarRes);
+    let updatedResults = {};
+    const projectNames = Object.keys(results);
+    projectNames.forEach(projectName => {
+      const variableNames = Object.keys(results[projectName]);
+      variableNames.filter(variableName => {
+        return variableName.toLowerCase().includes(userInput);
+      }).map((variableName) => {
+        if(!(projectName in updatedResults)){
+          updatedResults[projectName] = {};
+        }
+        updatedResults[projectName][variableName] = results[projectName][variableName];
+        return updatedResults;
+      });
     });
+
     this.setState({
-      results: newVarRes
+      results: updatedResults
     });
   }
 
   render(){
-    const variableRes = this.state.results;
-    if(Object.keys(variableRes) === 0){
+    const results = this.state.results;
+    if(Object.keys(results) === 0){
       return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
-    }else if(variableRes === 'error'){
+    }else if(results === 'error'){
       return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     }else{
-      const keys = Object.keys(variableRes).reduce((array, itm) => {
+      const projectNames = Object.keys(results).reduce((array, itm) => {
         return array.concat(itm);
       },[]);
       return(
@@ -89,11 +92,11 @@ class Results extends Component{
             placeholder="keyword"
             onKeyDown={this.userSubmitFilter}
           />
-          {keys.map(key =>
-              <div id="variable-results" key={key}>
-                <strong id="project-name">{key.toUpperCase()}</strong>
+          {projectNames.map(projectName =>
+              <div id="variable-results" key={projectName}>
+                <strong id="project-name">{projectName.toUpperCase()}</strong>
                 <ol>
-                  {Object.keys(variableRes[key]).map(varName =><li key={varName}>{varName}</li>)}
+                  {Object.keys(results[projectName]).map(variableName =><li key={variableName}>{variableName}</li>)}
                 </ol>
               </div>
             )
