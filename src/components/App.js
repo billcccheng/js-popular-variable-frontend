@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Home from './Home';
 import Search from './Search';
-import WordCloud from './WordCloud';
+import WordCloudRender from './WordCloudRender';
 import './App.css';
 
 class App extends Component{
@@ -22,7 +22,7 @@ class App extends Component{
     const tabs = [
       {"ActivateComponent": React.createFactory(Home)},
       {"ActivateComponent": React.createFactory(Search)},
-      {"ActivateComponent": React.createFactory(WordCloud)}
+      {"ActivateComponent": React.createFactory(WordCloudRender)}
     ];
     return (
       <div className="App">
