@@ -28,7 +28,6 @@ class App extends Component{
       <div className="App">
 		<h1 className="App-title"> Find JavaScript Variables </h1>
         <div className="App-note"> Note: API server is hosted on HEROKU so it may take some time to boot up the server if the server is sleeping.</div>
-       <Router>
           <div>
             <Tabs ripple onChange = {this.onChange.bind(this)}>
               <Tab>Home</Tab>
@@ -37,7 +36,6 @@ class App extends Component{
               <Tab>Intersection</Tab>
             </Tabs>
           </div>
-        </Router>
         {tabs[this.state.active].ActivateComponent()}
       </div>
     );
