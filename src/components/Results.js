@@ -8,8 +8,10 @@ class Results extends Component {
     super();
     this.state = {
       results: {},
+      filteredResults: {},
       receivedProjects: new Set(),
-      filterInput: ""
+      filterInput: "",
+      error: false
     }
     this.onFilterChange = this.onFilterChange.bind(this);
   }
@@ -30,24 +32,34 @@ class Results extends Component {
   }
 
   fetchVariableData(selectedProjects) {
-    const updateReceivedProjects = this.state.receivedProjects;
+    const updatedReceivedProjects = this.state.receivedProjects;
+    let fetchProjects = [];
     this.props.selectedProjects.forEach((project) => {
-      if(!updateReceivedProjects.has(project)) {
-        updateReceivedProjects.add(project);
+      if(!updatedReceivedProjects.has(project)) {
+        updatedReceivedProjects.add(project);
+        fetchProjects.push(project);
       }
     });
     this.setState({
-      receivedProjects: updateReceivedProjects
+      receivedProjects: updatedReceivedProjects
     });
-    Api.fetchProjectVariables(selectedProjects)
-      .then(res => {
-        this.filterResults(res.data);
-      })
-      .catch((err) => {
-        this.setState({
-          results: 'error'
+    if(fetchProjects.length > 0) {
+      Api.fetchProjectVariables(fetchProjects)
+        .then(res => {
+          this.setState({
+            results: Object.assign({}, this.state.results, res.data)
+          }, () => {
+            this.filterResults(this.state.results, selectedProjects);
+          });
+        })
+        .catch((err) => {
+          this.setState({
+            error: true
+          });
         });
-      });
+    } else {
+      this.filterResults(this.state.results, selectedProjects);
+    }
   }
 
   onFilterChange(event) {
@@ -58,35 +70,37 @@ class Results extends Component {
           filterInput: newFilterInput
         });
       }
-      this.filterResults(this.state.results);
+      this.filterResults(this.state.results, this.props.selectedProjects);
     }
   }
 
-  filterResults(results) {
+  filterResults(results, selectedProjects) {
     const userInput = this.state.filterInput.toLowerCase();
     let updatedResults = {};
-    const projectNames = Object.keys(results);
-    projectNames.forEach(projectName => {
+    selectedProjects.forEach(projectName => {
+      projectName = projectName.charAt(0).toLowerCase() + projectName.slice(1);
       updatedResults[projectName] = {};
-      const variableNames = Object.keys(results[projectName]);
-      variableNames.filter(variableName => {
-        return variableName.toLowerCase().includes(userInput);
-      }).map((variableName) => {
-        updatedResults[projectName][variableName] = results[projectName][variableName];
-        return updatedResults;
-      });
+      if(projectName in results){
+        const variableNames = Object.keys(results[projectName]);
+        variableNames.filter(variableName => {
+          return variableName.toLowerCase().includes(userInput);
+        }).map((variableName) => {
+          updatedResults[projectName][variableName] = results[projectName][variableName];
+          return updatedResults;
+        });
+      }
     });
 
     this.setState({
-      results: updatedResults
+      filteredResults: updatedResults
     });
   }
 
   render() {
-    const results = this.state.results;
+    const results = this.state.filteredResults;
     if(Object.keys(results) === 0) {
       return(<DoubleBounce size={50} />);
-    } else if(results === 'error') {
+    } else if(this.state.error) {
       return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     } else {
       const projectNames = Object.keys(results).reduce((array, itm) => {
