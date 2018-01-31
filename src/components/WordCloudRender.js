@@ -50,17 +50,32 @@ class WordCloudRender extends Component {
     Api.fetchSingleProjectVariables(selectedProject)
       .then((res) => {
         this.setState({
-          results: res.data,
+          results: Object.assign({}, this.state.results, {[selectedProject]: res.data}),
           filteredResults: res.data,
           openWordCloud: true
         });
       })
       .catch((err) => {
         this.setState({
-          results: "erro",
+          results: "error",
           openWordCloud: false
         });
       });
+  }
+
+  filterResults(selectedProject, filterInput='') {
+    const updatedResults = this.state.results[selectedProject].filter((itm) => {
+      return itm.text.includes(filterInput);
+    });
+    this.setState({
+      filteredResults: updatedResults
+    }, ()=>{
+      setTimeout(() => {
+        this.setState({
+          openWordCloud: true
+        });
+      }, 0);
+    });
   }
 
   onSelectChange(selectedProject) {
@@ -69,7 +84,12 @@ class WordCloudRender extends Component {
       filterInput: "",
       openWordCloud: false
     });
-    this.fetchSingleProjectVariables(selectedProject.value);
+    const recievedProjects = Object.keys(this.state.results);
+    if(recievedProjects.indexOf(selectedProject.value) > -1) {
+      this.filterResults(selectedProject.value);
+    } else {
+      this.fetchSingleProjectVariables(selectedProject.value);
+    }
   }
 
   onFilterChange(event) {
@@ -77,26 +97,15 @@ class WordCloudRender extends Component {
       const newFilterInput = event.target.value.trim();
       if(newFilterInput === '') {
         this.setState({
-          filteredResults: this.state.results
+          filteredResults: this.state.results[this.state.selectedProject],
         });
-      }
-
-      if(this.state.filterInput !== newFilterInput) {
+      } else if(this.state.filterInput !== newFilterInput) {
         this.setState({
-          filterInput: newFilterInput
+          filterInput: newFilterInput,
         });
+        this.filterResults(this.state.selectedProject, newFilterInput);
       }
-      this.filterResults(newFilterInput);
     }
-  }
-
-  filterResults(filterInput) {
-    const updatedResults = this.state.results.filter((itm) => {
-      return itm.text.includes(filterInput);
-    });
-    this.setState({
-      filteredResults: updatedResults
-    });
   }
 
   render() {
@@ -134,7 +143,7 @@ class WordCloudRender extends Component {
                 fontSizeMapper={fontSizeMapper}
                 rotate={rotate}/>
             </div> :
-            <DoubleBounce size={50} />
+            <DoubleBounce size={40} />
           }
         </div>
       );

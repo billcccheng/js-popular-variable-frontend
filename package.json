@@ -20,7 +20,7 @@
     "react-spinkit": "^3.0.0"
   },
   "scripts": {
-    "start": "PORT=8080 react-scripts start --host=0.0.0.0",
+    "start": "PORT=8000 react-scripts start --host=0.0.0.0",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

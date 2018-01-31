@@ -21,7 +21,8 @@ class App extends Component {
     const tabs = [
       {"ActivateComponent": React.createFactory(Home)},
       {"ActivateComponent": React.createFactory(Search)},
-      {"ActivateComponent": React.createFactory(WordCloudRender)}
+      {"ActivateComponent": React.createFactory(WordCloudRender)},
+      {"ActivateComponent": React.createFactory(Home)}
     ];
     return (
       <div className="App">

@@ -8,6 +8,7 @@ class Results extends Component {
     super();
     this.state = {
       results: {},
+      receivedProjects: new Set(),
       filterInput: ""
     }
     this.onFilterChange = this.onFilterChange.bind(this);
@@ -29,6 +30,15 @@ class Results extends Component {
   }
 
   fetchVariableData(selectedProjects) {
+    const updateReceivedProjects = this.state.receivedProjects;
+    this.props.selectedProjects.forEach((project) => {
+      if(!updateReceivedProjects.has(project)) {
+        updateReceivedProjects.add(project);
+      }
+    });
+    this.setState({
+      receivedProjects: updateReceivedProjects
+    });
     Api.fetchProjectVariables(selectedProjects)
       .then(res => {
         this.filterResults(res.data);
