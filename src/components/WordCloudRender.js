@@ -13,10 +13,13 @@ class WordCloudRender extends Component {
       projectNames: [],
       selectedProject: 'D3',
       results: {},
+      filteredResults: {},
+      filterInput: '',
       openSelections: false,
       openWordCloud: false
     };
     this.onSelectChange = this.onSelectChange.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
   componentWillMount() {
@@ -29,6 +32,8 @@ class WordCloudRender extends Component {
       .then((res) => {
         this.setState({
           projectNames: res.data.reduce((res, itm) => {
+            if(itm === 'Node')
+              return res;
             return res.concat({'value': itm, 'label': itm});
           },[]),
           openSelections: true
@@ -46,6 +51,7 @@ class WordCloudRender extends Component {
       .then((res) => {
         this.setState({
           results: res.data,
+          filteredResults: res.data,
           openWordCloud: true
         });
       })
@@ -60,9 +66,37 @@ class WordCloudRender extends Component {
   onSelectChange(selectedProject) {
     this.setState({
       selectedProject: selectedProject.value,
+      filterInput: "",
       openWordCloud: false
     });
     this.fetchSingleProjectVariables(selectedProject.value);
+  }
+
+  onFilterChange(event) {
+    if(event.key === 'Enter') {
+      const newFilterInput = event.target.value.trim();
+      if(newFilterInput === '') {
+        this.setState({
+          filteredResults: this.state.results
+        });
+      }
+
+      if(this.state.filterInput !== newFilterInput) {
+        this.setState({
+          filterInput: newFilterInput
+        });
+      }
+      this.filterResults(newFilterInput);
+    }
+  }
+
+  filterResults(filterInput) {
+    const updatedResults = this.state.results.filter((itm) => {
+      return itm.text.includes(filterInput);
+    });
+    this.setState({
+      filteredResults: updatedResults
+    });
   }
 
   render() {
@@ -75,6 +109,7 @@ class WordCloudRender extends Component {
     } else {
       return(
         <div id="word-cloud">
+          <div id="word-cloud-note"> Node has been excluded in word cloud due to it's large amount of variables. </div>
           <Select
             className="project-select"
             placeholder="Select a JavaScript Project"
@@ -85,7 +120,22 @@ class WordCloudRender extends Component {
             deleteRemoves={false}
             backspaceRemoves={false}
           />
-          {this.state.openWordCloud ? <WordCloud data={this.state.results} width={document.getElementById("word-cloud").offsetWidth} fontSizeMapper={fontSizeMapper} rotate={rotate}/>: <Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>}
+          {this.state.openWordCloud ?
+            <div>
+              <input
+                className="filter-word"
+                type="text"
+                placeholder="filter keyword"
+                onKeyDown={this.onFilterChange}
+              />
+              <WordCloud
+                data={this.state.filteredResults}
+                width={document.getElementById("word-cloud").offsetWidth}
+                fontSizeMapper={fontSizeMapper}
+                rotate={rotate}/>
+            </div> :
+            <Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>
+          }
         </div>
       );
     }

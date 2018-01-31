@@ -10,7 +10,7 @@ class Results extends Component {
       results: {},
       filterInput: ""
     }
-    this.userSubmitFilter = this.userSubmitFilter.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
   componentWillMount() {
@@ -40,14 +40,14 @@ class Results extends Component {
       });
   }
 
-  userSubmitFilter(event) {
-    let newFilterInput = event.target.value.trim();
-    if(this.state.filterInput !== newFilterInput) {
-      this.setState({
-        filterInput: newFilterInput
-      });
-    }
+  onFilterChange(event) {
     if(event.key === 'Enter') {
+      const newFilterInput = event.target.value.trim();
+      if(this.state.filterInput !== newFilterInput) {
+        this.setState({
+          filterInput: newFilterInput
+        });
+      }
       this.filterResults(this.state.results);
     }
   }
@@ -88,7 +88,7 @@ class Results extends Component {
             className="filter-word"
             type="text"
             placeholder="filter keyword"
-            onKeyDown={this.userSubmitFilter}
+            onKeyDown={this.onFilterChange}
           />
           {projectNames.map(projectName =>
               <div id="variable-results" key={projectName}>
