@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Search.css';
 import Api from '../utils/Api';
 import { Button } from 'react-mdl';
-import Spinner from 'react-spinkit';
+import { DoubleBounce } from 'better-react-spinkit'
 import Results from './Results';
 
 class Search extends Component {
@@ -62,7 +62,7 @@ class Search extends Component {
 
   render() {
     if(!this.state.showCheckBox) {
-      return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
+      return(<DoubleBounce size={50} />);
     } else if(this.state.showCheckBox === 'error') {
       return(<div style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     } else {

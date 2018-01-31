@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Api from '../utils/Api';
-import Spinner from 'react-spinkit';
+import { DoubleBounce } from 'better-react-spinkit'
 import './Results.css'
 
 class Results extends Component {
@@ -75,7 +75,7 @@ class Results extends Component {
   render() {
     const results = this.state.results;
     if(Object.keys(results) === 0) {
-      return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
+      return(<DoubleBounce size={50} />);
     } else if(results === 'error') {
       return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     } else {

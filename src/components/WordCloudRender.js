@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import Spinner from 'react-spinkit';
+import { DoubleBounce } from 'better-react-spinkit'
 import Api from '../utils/Api';
 import WordCloud from 'react-d3-cloud';
 import 'react-select/dist/react-select.css';
@@ -103,7 +103,7 @@ class WordCloudRender extends Component {
     const fontSizeMapper = word => Math.log2(word.value) * 6;
     const rotate = word => Math.random() * 20;
     if(!this.state.openSelections) {
-      return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
+      return(<DoubleBounce size={50} />);
     } else if(this.state.openCheckBox === 'error') {
       return(<div style={{color:'red'}}>An Error Occured...Please try again later.</div>);
     } else {
@@ -134,7 +134,7 @@ class WordCloudRender extends Component {
                 fontSizeMapper={fontSizeMapper}
                 rotate={rotate}/>
             </div> :
-            <Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>
+            <DoubleBounce size={50} />
           }
         </div>
       );
