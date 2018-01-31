@@ -3,7 +3,7 @@ import Api from '../utils/Api';
 import Spinner from 'react-spinkit';
 import './Results.css'
 
-class Results extends Component{
+class Results extends Component {
   constructor(){
     super();
     this.state = {
@@ -13,22 +13,22 @@ class Results extends Component{
     this.userSubmitFilter = this.userSubmitFilter.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.fetchVariableData(this.props.selectedProjects);
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     this.fetchVariableData(nextProps.selectedProjects);
   }
 
-  shouldComponentUpdate(nextProp, nextState){
+  shouldComponentUpdate(nextProp, nextState) {
     if(nextProp.update){
       return true;
     }
     return false;
   }
 
-  fetchVariableData(selectedProjects){
+  fetchVariableData(selectedProjects) {
     Api.fetchProjectVariables(selectedProjects)
       .then(res => {
         this.filterResults(res.data);
@@ -40,19 +40,19 @@ class Results extends Component{
       });
   }
 
-  userSubmitFilter(event){
+  userSubmitFilter(event) {
     let newFilterInput = event.target.value.trim();
-    if(this.state.filterInput !== newFilterInput){
+    if(this.state.filterInput !== newFilterInput) {
       this.setState({
         filterInput: newFilterInput
       });
     }
-    if(event.key === 'Enter'){
+    if(event.key === 'Enter') {
       this.filterResults(this.state.results);
     }
   }
 
-  filterResults(results){
+  filterResults(results) {
     const userInput = this.state.filterInput.toLowerCase();
     let updatedResults = {};
     const projectNames = Object.keys(results);
@@ -72,13 +72,13 @@ class Results extends Component{
     });
   }
 
-  render(){
+  render() {
     const results = this.state.results;
-    if(Object.keys(results) === 0){
+    if(Object.keys(results) === 0) {
       return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
-    }else if(results === 'error'){
+    } else if(results === 'error') {
       return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
-    }else{
+    } else {
       const projectNames = Object.keys(results).reduce((array, itm) => {
         return array.concat(itm);
       },[]);
@@ -87,7 +87,7 @@ class Results extends Component{
           <input
             className="filter-word"
             type="text"
-            placeholder="keyword"
+            placeholder="filter keyword"
             onKeyDown={this.userSubmitFilter}
           />
           {projectNames.map(projectName =>

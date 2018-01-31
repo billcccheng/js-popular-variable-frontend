@@ -5,8 +5,8 @@ import { Button } from 'react-mdl';
 import Spinner from 'react-spinkit';
 import Results from './Results';
 
-class Search extends Component{
-  constructor(){
+class Search extends Component {
+  constructor() {
     super();
     this.state = {
       showResultsComponent: false,
@@ -18,7 +18,7 @@ class Search extends Component{
     this.submitCheckbox = this.submitCheckbox.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     Api.fetchProjectNames()
       .then((res) => {
         this.setState({
@@ -33,8 +33,8 @@ class Search extends Component{
       })
   }
 
-  submitCheckbox(){
-    if(this.state.selectedProjects.length > 0){
+  submitCheckbox() {
+    if(this.state.selectedProjects.length > 0) {
       this.setState({
         updateResults: true,
         showResultsComponent: true
@@ -42,30 +42,30 @@ class Search extends Component{
     }
   }
 
-  toggleChange(checkedProject){
-    if(this.state.updateResults){
+  toggleChange(checkedProject) {
+    if(this.state.updateResults) {
       this.setState({
         updateResults: false
       });
     }
     const indexOfProject = this.state.selectedProjects.indexOf(checkedProject.name);
-    if(indexOfProject !== -1){
+    if(indexOfProject !== -1) {
       this.setState({
         selectedProjects: this.state.selectedProjects.filter((_,i) => i !== indexOfProject)
       });
-    }else{
+    } else {
       this.setState({
         selectedProjects: this.state.selectedProjects.concat(checkedProject.name)
       });
     }
   }
 
-  render(){
-    if(!this.state.showCheckBox){
+  render() {
+    if(!this.state.showCheckBox) {
       return(<Spinner className="loading-symbol" name="ball-scale-multiple" color="grey"/>);
-    }else if(this.state.showCheckBox === 'error'){
+    } else if(this.state.showCheckBox === 'error') {
       return(<div style={{color:'red'}}>An Error Occured...Please try again later.</div>);
-    }else{
+    } else {
       return(
         <div className="Search">
           <ul className="checkbox-grid">

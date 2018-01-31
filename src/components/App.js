@@ -5,7 +5,7 @@ import Search from './Search';
 import WordCloudRender from './WordCloudRender';
 import './App.css';
 
-class App extends Component{
+class App extends Component {
   constructor(){
     super();
     this.state = {
@@ -13,11 +13,11 @@ class App extends Component{
     }
   }
 
-  onChange(id){
+  onChange(id) {
     this.setState({ active: id });
   }
 
-  render(){
+  render() {
     const tabs = [
       {"ActivateComponent": React.createFactory(Home)},
       {"ActivateComponent": React.createFactory(Search)},
@@ -25,7 +25,7 @@ class App extends Component{
     ];
     return (
       <div className="App">
-		<h1 className="App-title"> Find JavaScript Variables </h1>
+        <h1 className="App-title"> Find JavaScript Variables </h1>
         <div className="App-note"> Note: API server is hosted on HEROKU so it may take some time to boot up the server if the server is sleeping.</div>
           <div>
             <Tabs ripple onChange = {this.onChange.bind(this)}>
