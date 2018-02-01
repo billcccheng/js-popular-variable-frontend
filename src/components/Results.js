@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import Api from '../utils/Api';
+import { connect } from 'react-redux';
+import { fetchProjectVariables } from '../actions/fetchDataAction';
 import { DoubleBounce } from 'better-react-spinkit'
-import './Results.css'
+import '../css/Results.css'
+
+import Api from '../utils/Api';
 
 class Results extends Component {
   constructor(){
@@ -24,12 +27,14 @@ class Results extends Component {
     this.fetchVariableData(nextProps.selectedProjects);
   }
 
-  shouldComponentUpdate(nextProp, nextState) {
-    if(nextProp.update){
-      return true;
-    }
-    return false;
-  }
+  /*
+   *shouldComponentUpdate(nextProp, nextState) {
+   *  if(nextProp.update){
+   *    return true;
+   *  }
+   *  return false;
+   *}
+   */
 
   fetchVariableData(selectedProjects) {
     const updatedReceivedProjects = this.state.receivedProjects;
@@ -129,4 +134,18 @@ class Results extends Component {
   }
 }
 
-export default Results;
+const mapStateToProps = (state) => {
+  return {
+    //projectNames: state.fetchedDataReducer.projectNames,
+    //isProjectNamesLoading: state.fetchedDataReducer.projectNamesIsLoading,
+    //projectNameError: state.fetchedDataReducer.fetchProjectNameHasError
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchProjectVariables: (projects) => dispatch(fetchProjectVariables(projects)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Results);

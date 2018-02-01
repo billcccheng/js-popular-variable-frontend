@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Home from './Home';
-import Search from './Search';
+import Filter from './Filter';
 import WordCloudRender from './WordCloudRender';
-import './App.css';
+import '../css/App.css';
 
 class App extends Component {
   constructor(){
@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     const tabs = [
       {"ActivateComponent": React.createFactory(Home)},
-      {"ActivateComponent": React.createFactory(Search)},
+      {"ActivateComponent": React.createFactory(Filter)},
       {"ActivateComponent": React.createFactory(WordCloudRender)},
       {"ActivateComponent": React.createFactory(Home)}
     ];

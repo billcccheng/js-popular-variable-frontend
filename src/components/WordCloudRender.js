@@ -4,7 +4,7 @@ import { DoubleBounce } from 'better-react-spinkit'
 import Api from '../utils/Api';
 import WordCloud from 'react-d3-cloud';
 import 'react-select/dist/react-select.css';
-import './WordCloudRender.css';
+import '../css/WordCloudRender.css';
 
 class WordCloudRender extends Component {
   constructor() {

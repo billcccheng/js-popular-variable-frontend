@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "1.1.0"
+    "react-scripts": "1.1.0",
+    "redux-logger": "^3.0.6"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -15,9 +16,14 @@
     "react-d3-cloud": "^0.5.0",
     "react-dom": "^16.2.0",
     "react-mdl": "^1.11.0",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-select": "^1.2.1",
-    "react-spinkit": "^3.0.0"
+    "react-spinkit": "^3.0.0",
+    "redux": "^3.7.2",
+    "redux-promise-middleware": "^5.0.0",
+    "redux-thunk": "^2.2.0",
+    "thunk": "0.0.1"
   },
   "scripts": {
     "start": "PORT=8000 react-scripts start --host=0.0.0.0",
