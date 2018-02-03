@@ -10,7 +10,7 @@ export function fetchProjectNames() {
   }
 }
 
-export function fetchProjectVariables(selectedProjects, filters, unFetchedProjects) {
+export function fetchProjectVariables(selectedProjects, filters, unFetchedProjects=[]) {
   return (dispatch, getState) => {
     const thisState = getState().fetchProjVarReducer;
     const url = `${hostName}/getProjectVariables`;
@@ -38,6 +38,19 @@ export function fetchProjectVariables(selectedProjects, filters, unFetchedProjec
         dispatch({type: "FETCH_PROJECT_VARIABLES_REJECTED"});
       });
     }
+  }
+}
+
+export function simpleFilter(selectedProjects, filters) {
+  return (dispatch, getState) => {
+    const thisState = getState().fetchProjVarReducer;
+    const results = thisState.results;
+    const filteredResults = filterResults(results, selectedProjects, filters);
+    dispatch({
+      type: "FETCH_PROJECT_VARIABLES_FULFILLED",
+      filtered: filteredResults,
+      results: results
+    });
   }
 }
 

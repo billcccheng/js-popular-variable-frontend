@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { DoubleBounce } from 'better-react-spinkit'
-import { fetchProjectVariables } from '../actions/fetchDataAction';
+import { fetchProjectVariables, simpleFilter } from '../actions/fetchDataAction';
 import '../css/Results.css'
 
 class Results extends Component {
@@ -42,7 +42,7 @@ class Results extends Component {
       if(this.filterInput !== newFilterInput) {
           this.filterInput = newFilterInput
       }
-      this.filterResults(this.state.results, this.props.selectedProjects);
+      this.props.simpleFilter(this.props.selectedProjects, this.filterInput);
     }
   }
 
@@ -61,7 +61,7 @@ class Results extends Component {
           <input
             className="filter-word"
             type="text"
-            placeholder="filter keyword"
+            placeholder={this.filterInput.length > 0 ? this.filterInput : "Filter"}
             onKeyDown={this.onFilterChange}
           />
           {projectNames.map(projectName =>
@@ -91,6 +91,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchProjectVariables: (projects, filters, unFetchedProjects) => dispatch(fetchProjectVariables(projects, filters, unFetchedProjects)),
+    simpleFilter: (selectedProjects, filters) => dispatch(simpleFilter(selectedProjects, filters))
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Results);
