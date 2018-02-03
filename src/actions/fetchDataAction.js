@@ -1,12 +1,19 @@
-import axios from 'axios';
+import axios from "axios";
 
 /*LOCAL TESTING USE*/
-const hostName = 'http://localhost:5000/api';
+const hostName = "http://localhost:5000/api";
 
 export function fetchProjectNames() {
   return (dispatch) => {
     const url = `${hostName}/getProjectNames`;
     dispatch({type: "FETCH_PROJECT_NAMES", payload: axios.get(url)});
+  }
+}
+
+export function fetchWordCloudProjectNames() {
+  return (dispatch) => {
+    const url = `${hostName}/fetchWordCloudProjectNames`;
+    dispatch({type: "FETCH_WC_PROJECT_NAMES", payload: axios.get(url)});
   }
 }
 
@@ -51,6 +58,36 @@ export function simpleFilter(selectedProjects, filters) {
       filtered: filteredResults,
       results: results
     });
+  }
+}
+
+export function fetchWordCloudSingleProjectVariables(selectedProject) {
+  return (dispatch, getState) => {
+    dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
+    const thisState = getState().wordCloudReducer;
+    const url = `${hostName}/getSingleProjectVariables/${selectedProject}`;
+    axios.get(url).then((res) => {
+      dispatch({
+        type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
+        aggregatedResults: {...thisState.wcAllData, ...{[selectedProject]: res.data}},
+        resToBeShowed: res.data
+      });
+    }).catch((err) => {
+      dispatch({
+        type: "FETCH_WC_PROJECT_VARIABLES_REJECTED",
+      });
+    });
+  }
+}
+
+export function wcSimpleFilter(selectedProject, filter) {
+  return (dispatch, getState) => {
+    dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
+    const allResults = getState().wordCloudReducer.wcAllData;
+    const updatedResults = allResults[selectedProject].filter((itm) => {
+      return itm.text.includes(filter);
+    });
+    dispatch({type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED", resToBeShowed: updatedResults, aggregatedResults: allResults});
   }
 }
 

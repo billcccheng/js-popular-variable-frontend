@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import Home from './Home';
 import Filter from './Filter';
+import React, { Component } from 'react';
 import WordCloudRender from './WordCloudRender';
+import { Tabs, Tab } from 'react-mdl/lib/Tabs';
 import '../css/App.css';
 
 class App extends Component {

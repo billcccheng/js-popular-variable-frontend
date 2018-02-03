@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Results from './Results';
-import { connect } from 'react-redux';
 import { Button } from 'react-mdl';
-import { fetchProjectNames } from '../actions/fetchDataAction';
+import { connect } from 'react-redux';
 import { DoubleBounce } from 'better-react-spinkit';
+import { fetchProjectNames } from '../actions/fetchDataAction';
 import '../css/Search.css';
 
 class Search extends Component {

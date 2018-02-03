@@ -7,8 +7,6 @@ import '../css/Results.css'
 class Results extends Component {
   constructor(){
     super();
-    this.state = {
-    }
     this.receivedProjects = [];
     this.filterInput = "";
     this.onFilterChange = this.onFilterChange.bind(this);
