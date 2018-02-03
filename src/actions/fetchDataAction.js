@@ -69,7 +69,7 @@ export function fetchWordCloudSingleProjectVariables(selectedProject) {
     axios.get(url).then((res) => {
       dispatch({
         type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
-        aggregatedResults: {...thisState.wcAllData, ...{[selectedProject]: res.data}},
+        savedResults: {...thisState.wcAllData, ...{[selectedProject]: res.data}},
         resToBeShowed: res.data
       });
     }).catch((err) => {
@@ -83,11 +83,15 @@ export function fetchWordCloudSingleProjectVariables(selectedProject) {
 export function wcSimpleFilter(selectedProject, filter) {
   return (dispatch, getState) => {
     dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
-    const allResults = getState().wordCloudReducer.wcAllData;
-    const updatedResults = allResults[selectedProject].filter((itm) => {
+    const savedResults = getState().wordCloudReducer.wcSavedData;
+    const updatedResults = savedResults[selectedProject].filter((itm) => {
       return itm.text.includes(filter);
     });
-    dispatch({type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED", resToBeShowed: updatedResults, aggregatedResults: allResults});
+    dispatch({
+      type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
+      resToBeShowed: updatedResults,
+      savedResults: savedResults
+    });
   }
 }
 

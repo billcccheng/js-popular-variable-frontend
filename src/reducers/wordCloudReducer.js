@@ -25,7 +25,7 @@ export default function reducer(state=initState, action) {
       return {...state, wcIsLoading: false, wcHasError: true}
     }
     case "FETCH_WC_PROJECT_VARIABLES_FULFILLED": {
-      return {...state, wcIsLoading: false, wcAllData: action.aggregatedResults, wcShowData: action.resToBeShowed}
+      return {...state, wcIsLoading: false, wcSavedData: action.savedResults, wcShowData: action.resToBeShowed}
     }
     default: {
       return state;

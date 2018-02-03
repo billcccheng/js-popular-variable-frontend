@@ -21,10 +21,6 @@ class WordCloudRender extends Component {
     this.props.fetchWordCloudSingleProjectVariables(this.selectedProject);
   }
 
-  componentWillReceiveProps(nextProps) {
-    //console.log(nextProps);
-  }
-
   onSelectChange(selectedProject) {
     this.selectedProject = selectedProject.value;
     const recievedProjects = Object.keys(this.props.wcSavedResults);
@@ -51,7 +47,7 @@ class WordCloudRender extends Component {
     } else {
       return(
         <div id="word-cloud">
-          <div id="word-cloud-note"> Node has been excluded in word cloud due to it's large amount of variables. </div>
+          <div id="word-cloud-note"> Node has been excluded in word cloud due to it's large volume of variables. </div>
           <Select
             className="project-select"
             placeholder="Select a JavaScript Project"
@@ -88,7 +84,7 @@ const mapStateToProps = (state) => {
   return {
     wcProjectName: state.wordCloudReducer.data,
     isLoading: state.wordCloudReducer.isLoading,
-    wcSavedResults: state.wordCloudReducer.wcAllData,
+    wcSavedResults: state.wordCloudReducer.wcSavedData,
     wcResults: state.wordCloudReducer.wcShowData,
     wcIsLoading: state.wordCloudReducer.wcIsLoading
   };
