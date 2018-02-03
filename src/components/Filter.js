@@ -10,8 +10,9 @@ class Search extends Component {
   constructor() {
     super();
     this.state = {
-      selectedProjects: []
-    };
+      selectedProjects: [],
+      updateResults: false
+    }
     this.selectedProjects = [];
     this.submitCheckbox = this.submitCheckbox.bind(this);
   }
@@ -22,16 +23,22 @@ class Search extends Component {
 
   submitCheckbox() {
     if(this.selectedProjects.length > 0) {
-      this.setState({selectedProjects: this.selectedProjects});
+      this.setState({
+        selectedProjects: this.selectedProjects,
+        updateResults: true
+      });
     }
   }
 
   toggleChange(checkedProject) {
-    const indexOfProject = this.state.selectedProjects.indexOf(checkedProject.name);
+    //this.setState({
+      //updateResults: false
+    //});
+    const indexOfProject = this.selectedProjects.indexOf(checkedProject.name);
     if(indexOfProject !== -1) {
-        this.selectedProjects =  this.selectedProjects.filter((itm, i) => i !== indexOfProject);
+      this.selectedProjects = this.selectedProjects.filter((itm, i) => i !== indexOfProject);
     } else {
-        this.selectedProjects = this.selectedProjects.concat(checkedProject.name);
+      this.selectedProjects = this.selectedProjects.concat(checkedProject.name);
     }
   }
 
@@ -62,7 +69,7 @@ class Search extends Component {
               Submit
             </Button>
           </ul>
-          {this.state.selectedProjects.length > 0 ? <Results selectedProjects={this.state.selectedProjects}/> : null}
+          {this.state.selectedProjects.length > 0 ? <Results update={this.state.updateResults} selectedProjects={this.state.selectedProjects}/> : null}
         </div>
       );
     }
