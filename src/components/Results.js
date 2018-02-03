@@ -1,10 +1,7 @@
+import Api from '../utils/Api.js';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchProjectVariables } from '../actions/fetchDataAction';
 import { DoubleBounce } from 'better-react-spinkit'
 import '../css/Results.css'
-
-import Api from '../utils/Api';
 
 class Results extends Component {
   constructor(){
@@ -12,10 +9,11 @@ class Results extends Component {
     this.state = {
       results: {},
       filteredResults: {},
-      receivedProjects: new Set(),
-      filterInput: "",
+      isLoading: false,
       error: false
     }
+    this.receivedProjects = [];
+    this.filterInput = "";
     this.onFilterChange = this.onFilterChange.bind(this);
   }
 
@@ -27,32 +25,21 @@ class Results extends Component {
     this.fetchVariableData(nextProps.selectedProjects);
   }
 
-  /*
-   *shouldComponentUpdate(nextProp, nextState) {
-   *  if(nextProp.update){
-   *    return true;
-   *  }
-   *  return false;
-   *}
-   */
-
   fetchVariableData(selectedProjects) {
-    const updatedReceivedProjects = this.state.receivedProjects;
-    let fetchProjects = [];
-    this.props.selectedProjects.forEach((project) => {
-      if(!updatedReceivedProjects.has(project)) {
-        updatedReceivedProjects.add(project);
-        fetchProjects.push(project);
-      }
-    });
-    this.setState({
-      receivedProjects: updatedReceivedProjects
-    });
-    if(fetchProjects.length > 0) {
-      Api.fetchProjectVariables(fetchProjects)
+    const _receivedProjects = this.receivedProjects;
+    const unFetchedProjects =  selectedProjects.filter(itm => !_receivedProjects.includes(itm))
+    this.receivedProjects  = _receivedProjects.concat(unFetchedProjects);
+    if(unFetchedProjects.length === 0) {
+      this.filterResults(this.state.results, selectedProjects);
+    }
+    if(unFetchedProjects.length > 0) {
+      this.setState({
+        isLoading: true
+      });
+      Api.fetchProjectVariables(unFetchedProjects)
         .then(res => {
           this.setState({
-            results: Object.assign({}, this.state.results, res.data)
+            results: {...this.state.results, ...res.data}
           }, () => {
             this.filterResults(this.state.results, selectedProjects);
           });
@@ -62,25 +49,11 @@ class Results extends Component {
             error: true
           });
         });
-    } else {
-      this.filterResults(this.state.results, selectedProjects);
-    }
-  }
-
-  onFilterChange(event) {
-    if(event.key === 'Enter') {
-      const newFilterInput = event.target.value.trim();
-      if(this.state.filterInput !== newFilterInput) {
-        this.setState({
-          filterInput: newFilterInput
-        });
-      }
-      this.filterResults(this.state.results, this.props.selectedProjects);
     }
   }
 
   filterResults(results, selectedProjects) {
-    const userInput = this.state.filterInput.toLowerCase();
+    const userInput = this.filterInput.toLowerCase();
     let updatedResults = {};
     selectedProjects.forEach(projectName => {
       projectName = projectName.charAt(0).toLowerCase() + projectName.slice(1);
@@ -95,22 +68,32 @@ class Results extends Component {
         });
       }
     });
-
     this.setState({
-      filteredResults: updatedResults
+      filteredResults: updatedResults,
+      isLoading: false
     });
   }
 
+  onFilterChange(event) {
+    if(event.key === 'Enter') {
+      const newFilterInput = event.target.value.trim();
+      if(this.filterInput !== newFilterInput) {
+          this.filterInput = newFilterInput
+      }
+      this.filterResults(this.state.results, this.props.selectedProjects);
+    }
+  }
+
   render() {
-    const results = this.state.filteredResults;
-    if(Object.keys(results) === 0) {
-      return(<DoubleBounce size={50} />);
-    } else if(this.state.error) {
+    if(this.state.error) {
       return(<div className="Results" style={{color:'red'}}>An Error Occured...Please try again later.</div>);
+    }
+
+    if(this.state.isLoading) {
+      return(<DoubleBounce size={50} />);
     } else {
-      const projectNames = Object.keys(results).reduce((array, itm) => {
-        return array.concat(itm);
-      },[]);
+      const results = this.state.filteredResults;
+      const projectNames = Object.keys(results);
       return(
         <div className="Results">
           <input
@@ -134,18 +117,4 @@ class Results extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    //projectNames: state.fetchedDataReducer.projectNames,
-    //isProjectNamesLoading: state.fetchedDataReducer.projectNamesIsLoading,
-    //projectNameError: state.fetchedDataReducer.fetchProjectNameHasError
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchProjectVariables: (projects) => dispatch(fetchProjectVariables(projects)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Results);
+export default Results;

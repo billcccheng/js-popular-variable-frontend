@@ -10,9 +10,9 @@ class Search extends Component {
   constructor() {
     super();
     this.state = {
-      selectedProjects: [],
-      showResultsComponent: false
+      selectedProjects: []
     };
+    this.selectedProjects = [];
     this.submitCheckbox = this.submitCheckbox.bind(this);
   }
 
@@ -21,23 +21,17 @@ class Search extends Component {
   }
 
   submitCheckbox() {
-    if(this.state.selectedProjects.length > 0) {
-      this.setState({
-        showResultsComponent: true
-      });
+    if(this.selectedProjects.length > 0) {
+      this.setState({selectedProjects: this.selectedProjects});
     }
   }
 
   toggleChange(checkedProject) {
     const indexOfProject = this.state.selectedProjects.indexOf(checkedProject.name);
     if(indexOfProject !== -1) {
-      this.setState({
-        selectedProjects: this.state.selectedProjects.filter((itm, i) => i !== indexOfProject)
-      });
+        this.selectedProjects =  this.selectedProjects.filter((itm, i) => i !== indexOfProject);
     } else {
-      this.setState({
-        selectedProjects: this.state.selectedProjects.concat(checkedProject.name)
-      });
+        this.selectedProjects = this.selectedProjects.concat(checkedProject.name);
     }
   }
 
@@ -68,7 +62,7 @@ class Search extends Component {
               Submit
             </Button>
           </ul>
-          {this.state.showResultsComponent ? <Results selectedProjects={this.state.selectedProjects}/> : null}
+          {this.state.selectedProjects.length > 0 ? <Results selectedProjects={this.state.selectedProjects}/> : null}
         </div>
       );
     }
