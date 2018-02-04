@@ -1,6 +1,6 @@
 import Home from "./Home";
 import Filter from "./Filter";
-import Intersection from "./Intersection";
+import Analysis from "./Analysis";
 import React, { Component } from "react";
 import WordCloudRender from "./WordCloudRender";
 import { Tabs, Tab } from "react-mdl/lib/Tabs";
@@ -23,7 +23,7 @@ class App extends Component {
       {"ActivateComponent": React.createFactory(Home)},
       {"ActivateComponent": React.createFactory(Filter)},
       {"ActivateComponent": React.createFactory(WordCloudRender)},
-      {"ActivateComponent": React.createFactory(Intersection)}
+      {"ActivateComponent": React.createFactory(Analysis)}
     ];
     return (
       <div className="App">
@@ -34,7 +34,7 @@ class App extends Component {
               <Tab>Home</Tab>
               <Tab>Filter</Tab>
               <Tab>Word Cloud</Tab>
-              <Tab>Intersection</Tab>
+              <Tab>Analysis</Tab>
             </Tabs>
           </div>
         {tabs[this.state.active].ActivateComponent()}
