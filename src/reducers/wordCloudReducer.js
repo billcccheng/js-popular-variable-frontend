@@ -4,7 +4,8 @@ const initState = {
   hasError: false,
   wcShowData: [],
   wcIsLoading: false,
-  wcHasError: false
+  wcHasError: false,
+  wcSavedData: {}
 }
 
 export default function reducer(state=initState, action) {
@@ -26,6 +27,9 @@ export default function reducer(state=initState, action) {
     }
     case "FETCH_WC_PROJECT_VARIABLES_FULFILLED": {
       return {...state, wcIsLoading: false, wcSavedData: action.savedResults, wcShowData: action.resToBeShowed}
+    }
+    case "CLEAR_FETCH_WC_PROJECT_VARIABLES_SHOW_RESULTS": {
+      return {...state,  wcShowData: [] }
     }
     default: {
       return state;

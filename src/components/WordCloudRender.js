@@ -3,27 +3,33 @@ import Select from "react-select";
 import WordCloud from "react-d3-cloud";
 import { connect } from "react-redux";
 import { DoubleBounce } from "better-react-spinkit"
-import { fetchWCProjectNames, fetchWCSingleProjectVariables, wcSimpleFilter } from "../actions/fetchDataAction";
+import { fetchWCProjectNames, fetchWCSingleProjectVariables } from "../actions/fetchDataAction";
+import { wcSimpleFilter, clearShowResultsTree } from "../actions/fetchDataAction";
 import "react-select/dist/react-select.css";
 import "../css/WordCloudRender.css";
 
 class WordCloudRender extends Component {
   constructor() {
     super();
-    this.selectedProject = "D3";
     this.filterInput = "";
     this.onSelectChange = this.onSelectChange.bind(this);
     this.onFilterChange = this.onFilterChange.bind(this);
   }
 
   componentWillMount() {
-    this.props.fetchWCProjectNames();
-    this.props.fetchWCSingleProjectVariables(this.selectedProject);
+    if(this.props.wcProjectNames.length === 0 ) {
+      this.props.fetchWCProjectNames();
+    }
+    this.selectedProject = "";
+  }
+
+  componentWillUnmount() {
+    this.props.clearShowResultsTree();
   }
 
   onSelectChange(selectedProject) {
     this.selectedProject = selectedProject.value;
-    const recievedProjects = Object.keys(this.props.wcSavedResults);
+    const recievedProjects = this.props.wcSavedProjects;
     if(recievedProjects.indexOf(selectedProject.value) !== -1) {
       this.props.filterWC(this.selectedProject, this.filterInput);
     } else {
@@ -41,10 +47,11 @@ class WordCloudRender extends Component {
 
   render() {
     const fontSizeMapper = word => Math.log2(word.value) * 6;
-    const rotate = word => Math.random() * 20;
+    //const rotate = word => Math.random() * 20;
     if(this.props.isLoading) {
       return(<DoubleBounce size={50} />);
     } else {
+      const widthOfWC = document.getElementById("word-cloud") ? document.getElementById("word-cloud").offsetWidth : 400;
       return(
         <div id="word-cloud">
           <div id="word-cloud-note"> Node has been excluded in word cloud due to it's large volume of variables. </div>
@@ -52,13 +59,13 @@ class WordCloudRender extends Component {
             className="project-select"
             placeholder="Select a JavaScript Project"
             value={this.selectedProject}
-            options={this.props.wcProjectName}
+            options={this.props.wcProjectNames}
             onChange={this.onSelectChange}
             clearable={false}
             deleteRemoves={false}
             backspaceRemoves={false}
           />
-          {!this.props.wcIsLoading && this.props.wcResults.length > 0 ?
+          {!this.props.wcIsLoading && this.props.wcShowResults.length > 0 ?
             <div>
               <input
                 className="filter-word"
@@ -67,12 +74,11 @@ class WordCloudRender extends Component {
                 onKeyDown={this.onFilterChange}
               />
               <WordCloud
-                data={this.props.wcResults}
-                width={document.getElementById("word-cloud").offsetWidth}
+                data={this.props.wcShowResults}
+                width={widthOfWC}
                 fontSizeMapper={fontSizeMapper}
-                rotate={rotate}/>
-            </div> :
-            <DoubleBounce size={40} />
+              />
+            </div> : <ShowLoading project={this.selectedProject} />
           }
         </div>
       );
@@ -80,12 +86,16 @@ class WordCloudRender extends Component {
   }
 }
 
+function ShowLoading({project}) {
+  return (project !== "" && <DoubleBounce size={40} />);
+}
+
 const mapStateToProps = (state) => {
   return {
-    wcProjectName: state.wordCloudReducer.data,
+    wcProjectNames: state.wordCloudReducer.data,
     isLoading: state.wordCloudReducer.isLoading,
-    wcSavedResults: state.wordCloudReducer.wcSavedData,
-    wcResults: state.wordCloudReducer.wcShowData,
+    wcSavedProjects: Object.keys(state.wordCloudReducer.wcSavedData),
+    wcShowResults: state.wordCloudReducer.wcShowData,
     wcIsLoading: state.wordCloudReducer.wcIsLoading
   };
 };
@@ -94,7 +104,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchWCProjectNames: () => dispatch(fetchWCProjectNames()),
     fetchWCSingleProjectVariables: (project) => dispatch(fetchWCSingleProjectVariables(project)),
-    filterWC: (selectedProject, filter) => dispatch(wcSimpleFilter(selectedProject, filter))
+    filterWC: (selectedProject, filter) => dispatch(wcSimpleFilter(selectedProject, filter)),
+    clearShowResultsTree: () => dispatch(clearShowResultsTree())
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(WordCloudRender);

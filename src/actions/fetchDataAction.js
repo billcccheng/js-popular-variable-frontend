@@ -1,8 +1,8 @@
 import axios from "axios";
 
 /*LOCAL TESTING USE*/
-const hostName = "http://localhost:5000/api";
-//const hostName = "https://js-popular-variable-server.herokuapp.com/api"
+//const hostName = "http://localhost:5000/api";
+const hostName = "https://js-popular-variable-server.herokuapp.com/api"
 
 export function fetchProjectNames() {
   return (dispatch) => {
@@ -66,31 +66,48 @@ export function fetchWCSingleProjectVariables(selectedProject) {
   return (dispatch, getState) => {
     dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
     const thisState = getState().wordCloudReducer;
-    const url = `${hostName}/getSingleProjectVariables/${selectedProject}`;
-    axios.get(url).then((res) => {
+    const savedProject = Object.keys(thisState.wcSavedData);
+    if(savedProject.indexOf(selectedProject) !== -1){
       dispatch({
         type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
-        savedResults: {...thisState.wcSavedData, ...{[selectedProject]: res.data}},
-        resToBeShowed: res.data
+        savedResults: thisState.wcSavedData,
+        resToBeShowed: thisState.wcSavedData[selectedProject]
       });
-    }).catch((err) => {
-      dispatch({
-        type: "FETCH_WC_PROJECT_VARIABLES_REJECTED",
+    } else {
+      const url = `${hostName}/getSingleProjectVariables/${selectedProject}`;
+      axios.get(url).then((res) => {
+        dispatch({
+          type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
+          savedResults: {...thisState.wcSavedData, ...{[selectedProject]: res.data}},
+          resToBeShowed: res.data
+        });
+      }).catch((err) => {
+        dispatch({
+          type: "FETCH_WC_PROJECT_VARIABLES_REJECTED",
+        });
       });
+    }
+  }
+}
+
+export function clearShowResultsTree() {
+  return (dispatch, getState) => {
+    dispatch({
+      type: "CLEAR_FETCH_WC_PROJECT_VARIABLES_SHOW_RESULTS",
     });
   }
 }
 
 export function wcSimpleFilter(selectedProject, filter) {
   return (dispatch, getState) => {
-    dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
     const savedResults = getState().wordCloudReducer.wcSavedData;
     const updatedResults = savedResults[selectedProject].filter((itm) => {
       return itm.text.includes(filter);
     });
+
     dispatch({
       type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
-      resToBeShowed: updatedResults,
+      resToBeShowed: updatedResults.length !== 0 ? updatedResults : [{ text: "N/A" , value: 10000 }],
       savedResults: savedResults
     });
   }
