@@ -1,8 +1,8 @@
 import axios from "axios";
 
 /*LOCAL TESTING USE*/
-//const hostName = "http://localhost:5000/api";
-const hostName = "https://js-popular-variable-server.herokuapp.com/api"
+const hostName = "http://localhost:5000/api";
+//const hostName = "https://js-popular-variable-server.herokuapp.com/api"
 
 export function fetchProjectNames() {
   return (dispatch) => {
@@ -100,6 +100,7 @@ export function clearShowResultsTree() {
 
 export function wcSimpleFilter(selectedProject, filter) {
   return (dispatch, getState) => {
+    dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
     const savedResults = getState().wordCloudReducer.wcSavedData;
     const updatedResults = savedResults[selectedProject].filter((itm) => {
       return itm.text.includes(filter);
