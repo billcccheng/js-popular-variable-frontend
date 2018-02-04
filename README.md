@@ -25,7 +25,7 @@ If you want to change your port to 8080, just go to `package.json` and change `"
 found [here](https://github.com/billcccheng/js-popular-variable-frontend-server)
 
 ## Change Logs
-02.03.2018 System is live and up. Alpha Version RUNNING!!!!
+* 02.03.2018 System is live and up. Alpha Version RUNNING!!!!
 
 ## Future Update
 * Analysis
