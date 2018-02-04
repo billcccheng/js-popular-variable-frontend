@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "gh-deploy": "^0.2.3",
     "react-scripts": "1.1.0",
     "redux-logger": "^3.0.6"
   },
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "start": "PORT=8000 react-scripts start --host=0.0.0.0",
-    "build": "react-scripts build",
+    "build": "react-scripts build && gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

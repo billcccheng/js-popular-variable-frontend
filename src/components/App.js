@@ -1,9 +1,10 @@
-import Home from './Home';
-import Filter from './Filter';
-import React, { Component } from 'react';
-import WordCloudRender from './WordCloudRender';
-import { Tabs, Tab } from 'react-mdl/lib/Tabs';
-import '../css/App.css';
+import Home from "./Home";
+import Filter from "./Filter";
+import Intersection from "./Intersection";
+import React, { Component } from "react";
+import WordCloudRender from "./WordCloudRender";
+import { Tabs, Tab } from "react-mdl/lib/Tabs";
+import "../css/App.css";
 
 class App extends Component {
   constructor(){
@@ -22,7 +23,7 @@ class App extends Component {
       {"ActivateComponent": React.createFactory(Home)},
       {"ActivateComponent": React.createFactory(Filter)},
       {"ActivateComponent": React.createFactory(WordCloudRender)},
-      {"ActivateComponent": React.createFactory(Home)}
+      {"ActivateComponent": React.createFactory(Intersection)}
     ];
     return (
       <div className="App">

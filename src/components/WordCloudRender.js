@@ -3,7 +3,7 @@ import Select from "react-select";
 import WordCloud from "react-d3-cloud";
 import { connect } from "react-redux";
 import { DoubleBounce } from "better-react-spinkit"
-import { fetchWordCloudProjectNames, fetchWordCloudSingleProjectVariables, wcSimpleFilter } from "../actions/fetchDataAction";
+import { fetchWCProjectNames, fetchWCSingleProjectVariables, wcSimpleFilter } from "../actions/fetchDataAction";
 import "react-select/dist/react-select.css";
 import "../css/WordCloudRender.css";
 
@@ -17,8 +17,8 @@ class WordCloudRender extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchWordCloudProjectNames();
-    this.props.fetchWordCloudSingleProjectVariables(this.selectedProject);
+    this.props.fetchWCProjectNames();
+    this.props.fetchWCSingleProjectVariables(this.selectedProject);
   }
 
   onSelectChange(selectedProject) {
@@ -27,7 +27,7 @@ class WordCloudRender extends Component {
     if(recievedProjects.indexOf(selectedProject.value) !== -1) {
       this.props.filterWC(this.selectedProject, this.filterInput);
     } else {
-      this.props.fetchWordCloudSingleProjectVariables(this.selectedProject);
+      this.props.fetchWCSingleProjectVariables(this.selectedProject);
     }
   }
 
@@ -92,8 +92,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchWordCloudProjectNames: () => dispatch(fetchWordCloudProjectNames()),
-    fetchWordCloudSingleProjectVariables: (project) => dispatch(fetchWordCloudSingleProjectVariables(project)),
+    fetchWCProjectNames: () => dispatch(fetchWCProjectNames()),
+    fetchWCSingleProjectVariables: (project) => dispatch(fetchWCSingleProjectVariables(project)),
     filterWC: (selectedProject, filter) => dispatch(wcSimpleFilter(selectedProject, filter))
   };
 }

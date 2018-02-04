@@ -2,6 +2,7 @@ import axios from "axios";
 
 /*LOCAL TESTING USE*/
 const hostName = "http://localhost:5000/api";
+//const hostName = "https://js-popular-variable-server.herokuapp.com/api"
 
 export function fetchProjectNames() {
   return (dispatch) => {
@@ -10,7 +11,7 @@ export function fetchProjectNames() {
   }
 }
 
-export function fetchWordCloudProjectNames() {
+export function fetchWCProjectNames() {
   return (dispatch) => {
     const url = `${hostName}/fetchWordCloudProjectNames`;
     dispatch({type: "FETCH_WC_PROJECT_NAMES", payload: axios.get(url)});
@@ -61,7 +62,7 @@ export function simpleFilter(selectedProjects, filters) {
   }
 }
 
-export function fetchWordCloudSingleProjectVariables(selectedProject) {
+export function fetchWCSingleProjectVariables(selectedProject) {
   return (dispatch, getState) => {
     dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
     const thisState = getState().wordCloudReducer;
