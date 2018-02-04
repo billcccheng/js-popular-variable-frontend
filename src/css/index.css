@@ -4,3 +4,13 @@ body {
   padding: 0;
   font-family: Gill Sans MT;
 }
+
+footer {
+  width: 100%;
+  height: 25px;
+  position: fixed;
+  bottom: 0px;
+  color: white;
+  background-color: #313131;
+  text-align: center
+}

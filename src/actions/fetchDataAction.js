@@ -1,8 +1,8 @@
 import axios from "axios";
 
 /*LOCAL TESTING USE*/
-const hostName = "http://localhost:5000/api";
-//const hostName = "https://js-popular-variable-server.herokuapp.com/api"
+//const hostName = "http://localhost:5000/api";
+const hostName = "https://js-popular-variable-server.herokuapp.com/api"
 
 export function fetchProjectNames() {
   return (dispatch) => {
