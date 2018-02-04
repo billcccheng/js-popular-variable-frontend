@@ -102,13 +102,14 @@ export function wcSimpleFilter(selectedProject, filter) {
   return (dispatch, getState) => {
     dispatch({type: "FETCH_WC_PROJECT_VARIABLES_PENDING"});
     const savedResults = getState().wordCloudReducer.wcSavedData;
+    const lowerCaseFilter = filter.toLowerCase();
     const updatedResults = savedResults[selectedProject].filter((itm) => {
-      return itm.text.includes(filter);
+      return itm.text.toLowerCase().includes(lowerCaseFilter);
     });
 
     dispatch({
       type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
-      resToBeShowed: updatedResults.length !== 0 ? updatedResults : [{ text: "N/A" , value: 10000 }],
+      resToBeShowed: updatedResults.length !== 0 ? updatedResults : [{ text: "NO RESULTS" , value: 1000 }],
       savedResults: savedResults
     });
   }

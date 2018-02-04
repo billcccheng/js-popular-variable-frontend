@@ -9,7 +9,6 @@ class Results extends Component {
     super();
     this.receivedProjects = [];
     this.filterInput = "";
-    this.onFilterChange = this.onFilterChange.bind(this);
   }
 
   componentWillMount() {
@@ -34,7 +33,7 @@ class Results extends Component {
     }
   }
 
-  onFilterChange(event) {
+  onFilterChange = (event) => {
     if(event.key === 'Enter') {
       const newFilterInput = event.target.value.trim();
       if(this.filterInput !== newFilterInput) {
@@ -62,19 +61,26 @@ class Results extends Component {
             placeholder={this.filterInput.length > 0 ? this.filterInput : "Filter"}
             onKeyDown={this.onFilterChange}
           />
-          {projectNames.map(projectName =>
-              <div id="variable-results" key={projectName}>
-                <strong id="project-name">{projectName.toUpperCase()}</strong>
-                <ol>
-                  {Object.keys(results[projectName]).map(variableName =><li key={variableName}>{variableName}</li>)}
-                </ol>
-              </div>
-            )
-          }
+          <ProjectVariableList results={results} projectNames={projectNames}/>
         </div>
       );
     }
   }
+}
+
+const ProjectVariableList = ({projectNames, results}) => {
+  return (
+    projectNames.map(projectName =>
+      <div id="variable-results" key={projectName}>
+        <strong id="project-name">{projectName.toUpperCase()}</strong>
+        <ol>
+          {Object.keys(results[projectName]).map(variableName =>
+            <li key={variableName}>{variableName}</li>)
+          }
+        </ol>
+      </div>
+    )
+  );
 }
 
 const mapStateToProps = (state) => {

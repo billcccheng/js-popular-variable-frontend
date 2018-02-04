@@ -14,7 +14,6 @@ class Search extends Component {
       updateResults: false
     }
     this.selectedProjects = [];
-    this.submitCheckbox = this.submitCheckbox.bind(this);
   }
 
   componentWillMount() {
@@ -22,7 +21,7 @@ class Search extends Component {
       this.props.fetchProjectNames();
   }
 
-  submitCheckbox() {
+  submitCheckbox = () => {
     if(this.selectedProjects.length > 0) {
       this.setState({
         selectedProjects: this.selectedProjects,
@@ -31,7 +30,7 @@ class Search extends Component {
     }
   }
 
-  toggleChange(checkedProject) {
+  toggleChange = (checkedProject) => {
     const indexOfProject = this.selectedProjects.indexOf(checkedProject.name);
     if(indexOfProject !== -1) {
       this.selectedProjects = this.selectedProjects.filter((itm, i) => i !== indexOfProject);
@@ -51,18 +50,7 @@ class Search extends Component {
         <div className="Search">
           <ul className="checkbox-grid">
             <h4>Popluar Javascript Repo</h4>
-            {projectNames.map(name => (
-                <li key={name}><label>
-                  <input
-                    name={name}
-                    type="checkbox"
-                    onChange={this.toggleChange.bind(this,{name})}
-                  />
-                  {name}
-                </label></li>
-                )
-              )
-            }
+            <ProjectCheckboxes names={projectNames} that={this} />
             <Button raised ripple id="checkBox-submit" onClick={this.submitCheckbox}>
               Submit
             </Button>
@@ -72,6 +60,22 @@ class Search extends Component {
       );
     }
   }
+}
+
+const ProjectCheckboxes = ({names, that}) => {
+  return(
+    names.map(name => (
+      <li key={name}><label>
+        <input
+          name={name}
+          type="checkbox"
+          onChange={that.toggleChange.bind(that, {name})}
+        />
+        {name}
+      </label></li>
+      )
+    )
+  );
 }
 
 const mapStateToProps = (state) => {
