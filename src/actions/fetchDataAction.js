@@ -1,8 +1,8 @@
 import axios from "axios";
 
 /*LOCAL TESTING USE*/
-//const hostName = "http://localhost:5000/api";
-const hostName = "https://js-popular-variable-server.herokuapp.com/api"
+const hostName = "http://localhost:5000/api";
+//const hostName = "https://js-popular-variable-server.herokuapp.com/api"
 
 export function fetchProjectNames() {
   return (dispatch) => {
@@ -70,7 +70,7 @@ export function fetchWCSingleProjectVariables(selectedProject) {
     axios.get(url).then((res) => {
       dispatch({
         type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
-        savedResults: {...thisState.wcAllData, ...{[selectedProject]: res.data}},
+        savedResults: {...thisState.wcSavedData, ...{[selectedProject]: res.data}},
         resToBeShowed: res.data
       });
     }).catch((err) => {

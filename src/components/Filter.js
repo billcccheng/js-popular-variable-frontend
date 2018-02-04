@@ -18,7 +18,8 @@ class Search extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchProjectNames();
+    if(this.props.projectNames.length === 0)
+      this.props.fetchProjectNames();
   }
 
   submitCheckbox() {
@@ -31,9 +32,6 @@ class Search extends Component {
   }
 
   toggleChange(checkedProject) {
-    //this.setState({
-      //updateResults: false
-    //});
     const indexOfProject = this.selectedProjects.indexOf(checkedProject.name);
     if(indexOfProject !== -1) {
       this.selectedProjects = this.selectedProjects.filter((itm, i) => i !== indexOfProject);
