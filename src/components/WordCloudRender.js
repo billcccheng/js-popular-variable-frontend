@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Select from "react-select";
-import WordCloud from "react-d3-cloud";
+import { TagCloud } from "react-tagcloud";
 import { connect } from "react-redux";
 import { DoubleBounce } from "better-react-spinkit"
 import { fetchWCProjectNames, fetchWCSingleProjectVariables } from "../actions/fetchDataAction";
@@ -15,7 +15,7 @@ class WordCloudRender extends Component {
   }
 
   componentWillMount() {
-    if(this.props.wcProjectNames.length === 0 ) {
+    if(!this.props.wcProjectNames.length) {
       this.props.fetchWCProjectNames();
     }
     this.selectedProject = "";
@@ -44,10 +44,15 @@ class WordCloudRender extends Component {
   }
 
   render() {
-    const fontSizeMapper = word => Math.log2(word.value) * 6;
+    const color = {luminosity: 'dark', hue: 'blue'};
     return(
       <div id="word-cloud">
-        <div id="word-cloud-note"> Node has been excluded in word cloud due to it's large volume of variables. </div>
+        <div id="word-cloud-note">
+          <ol>
+            <li>Node has been excluded in word cloud due to it's large volume of variables. </li>
+            <li>Click on the word to take you to the Github search.</li>
+          </ol>
+        </div>
         <Select
           className="project-select"
           placeholder="Select a JavaScript Project"
@@ -67,12 +72,12 @@ class WordCloudRender extends Component {
               placeholder="filter keyword"
               onKeyDown={this.onFilterChange}
             />
-            <WordCloud
-              data={this.props.wcShowResults}
-              width={document.getElementById("word-cloud").offsetWidth}
-              fontSizeMapper={fontSizeMapper}
-              font="Verdana"
-            />
+            <TagCloud
+              minSize={12}
+              maxSize={35}
+              tags={this.props.wcShowResults}
+              colorOptions={color}
+              onClick={tag => window.open(tag.url, '_blank')} />
           </div> : <ShowLoading project={this.selectedProject} />
         }
       </div>

@@ -25,7 +25,7 @@ class Results extends Component {
     const _receivedProjects = this.receivedProjects;
     const unFetchedProjects =  selectedProjects.filter(itm => !_receivedProjects.includes(itm))
     this.receivedProjects  = _receivedProjects.concat(unFetchedProjects);
-    if(unFetchedProjects.length === 0) {
+    if(!unFetchedProjects.length) {
       this.props.fetchProjectVariables(selectedProjects, this.filterInput, unFetchedProjects);
     }
     if(unFetchedProjects.length > 0) {
@@ -75,7 +75,7 @@ const ProjectVariableList = ({projectNames, results}) => {
         <strong id="project-name">{projectName.toUpperCase()}</strong>
         <ol>
           {Object.keys(results[projectName]).map(variableName =>
-            <li key={variableName}>{variableName}</li>)
+            <li key={variableName}><a target="_blank" href={results[projectName][variableName].url}>{variableName}</a></li>)
           }
         </ol>
       </div>

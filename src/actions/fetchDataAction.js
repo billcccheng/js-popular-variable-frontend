@@ -104,12 +104,12 @@ export function wcSimpleFilter(selectedProject, filter) {
     const savedResults = getState().wordCloudReducer.wcSavedData;
     const lowerCaseFilter = filter.toLowerCase();
     const updatedResults = savedResults[selectedProject].filter((itm) => {
-      return itm.text.toLowerCase().includes(lowerCaseFilter);
+      return itm.value.toLowerCase().includes(lowerCaseFilter);
     });
 
     dispatch({
       type: "FETCH_WC_PROJECT_VARIABLES_FULFILLED",
-      resToBeShowed: updatedResults.length !== 0 ? updatedResults : [{ text: "NO RESULTS" , value: 1000 }],
+      resToBeShowed: updatedResults.length !== 0 ? updatedResults : [{ value: "NO RESULTS", count: 1000, url:'https://en.wikipedia.org/wiki/Null_result' }],
       savedResults: savedResults
     });
   }

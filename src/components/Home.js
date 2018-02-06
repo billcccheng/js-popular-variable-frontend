@@ -6,13 +6,12 @@ class Home extends Component {
     return(
       <div id="home">
         <h5>Why I Started This Project</h5>
-        A better version is on Medium.
         <hr/>
         <p>
         This project extracted the top ten most popular (most stars) JavaScript repo on GitHub and pulled out the function names and variable names. Instructions on how to use this app is on GitHub but believe me - the app is self-explanatory.
         </p>
         <p>
-				It's great to use programs like JavaScript and Python which are dynamically typed but sometimes it's just painful when you don't use it the right way. I started this project to help developers who are having difficulties naming there varibles (yes...I've been there a lot of time). Good variable names helps code reviews and better software qualities. Below are two real life example that good naming would benefit every software developers in the long run.
+				It's great to use programs like JavaScript and Python which are dynamically typed but sometimes it's just painful when you don't use it the right way. I started this project to help developers who are having difficulties naming there varibles (yes...I've been there a lot of time). Good variable names helps code reviews and produces better software qualities. Below are two real life example that good naming would benefit every software developers in the long run.
         </p>
         <p>
         There was this day when I was code reviewing one of the tickets that was assigned to me. It was a huge ticket and lots of code refactoring. Along the way, I saw this function named <i>checkNextBillingDate</i>. At first I assumed this meant returning back a string or date object. However, diving deeper into the code I found out that variable was returning back a boolean value. WHAT?!?! How does <i>checkNextBillingDate</i> return a boolean? Even if it did, how would I know what it was checking. Well after digging into the function, I finally figured out it was trying to check to check if the date passed in was a future. A better naming would have maybe been <i>isDateInFuture</i> or something like that.

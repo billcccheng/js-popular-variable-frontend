@@ -17,7 +17,7 @@ class Search extends Component {
   }
 
   componentWillMount() {
-    if(this.props.projectNames.length === 0)
+    if(!this.props.projectNames.length)
       this.props.fetchProjectNames();
   }
 
