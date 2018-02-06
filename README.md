@@ -7,7 +7,7 @@ First clone the repository.
 git clone https://github.com/billcccheng/js-popular-variable-frontend.git
 ```
 
-Then npm install to install all the required packages. After you have
+Then `npm install` to install all the required packages. After you have
 all the packages installed, you can `npm run start` to play around with you app on `port 8000`.
 
 ```
