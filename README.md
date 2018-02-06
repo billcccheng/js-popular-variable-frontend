@@ -23,7 +23,7 @@ If you want to change your port to 8080, just go to `package.json` and change `"
 ## The Backend Server
 * All the logic and searching of the app is loaded on a heroku server. All the source code of the heroku server can be
 found [here](https://github.com/billcccheng/js-popular-variable-server)
-* Remember to comment out this [line](https://github.com/billcccheng/js-popular-variable-frontend/blob/master/src/actions/fetchDataAction.js#L5) if you want to test the server on your localhost or comment out this [line](https://github.com/billcccheng/js-popular-variable-frontend/blob/master/src/actions/fetchDataAction.js#L6) if you want to use the heroku server.
+* Remember to comment out this [line](https://github.com/billcccheng/js-popular-variable-frontend/blob/master/src/actions/fetchDataAction.js#L5) if you want to test the server on your localhost or comment out this [line](https://github.com/billcccheng/js-popular-variable-frontend/blob/master/src/actions/fetchDataAction.js#L4) if you want to use the heroku server.
 
 ## Change Logs
 * 02.03.2018 System is live and up. Alpha Version RUNNING!!!!
