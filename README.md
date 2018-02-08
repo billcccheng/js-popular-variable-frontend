@@ -1,6 +1,12 @@
 # Javascript Popular Variable Frontend
 The website is deployed [here](https://billcccheng.github.io/js-popular-variable-frontend/).
 
+## Demo
+
+<p align="center">
+<img src="assets/intro.gif" width=500>
+</p>
+
 ## Installation
 First clone the repository.
 ```
