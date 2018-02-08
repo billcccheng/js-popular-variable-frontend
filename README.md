@@ -4,7 +4,7 @@ The website is deployed [here](https://billcccheng.github.io/js-popular-variable
 ## Demo
 
 <p align="center">
-<img src="assets/intro.gif" width=500>
+<img src="assets/intro.gif" width=800>
 </p>
 
 ## Installation
