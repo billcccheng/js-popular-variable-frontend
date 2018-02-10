@@ -1,4 +1,5 @@
 # Javascript Popular Variable Frontend
+Ever had trouble naming your variable or function names? Wonder how the greatest repository did their naming? Well I made this website so you can search and reference how the most popular Javascript repository's varaible and function names.
 The website is deployed [here](https://billcccheng.github.io/js-popular-variable-frontend/).
 
 ## Demo
