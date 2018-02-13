@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
 import Results from './Results';
+import { fetchProjectNames } from '../actions/fetchDataAction';
+import '../css/Search.css';
+
+import React, { Component } from 'react';
 import { Button } from 'react-mdl';
 import { connect } from 'react-redux';
 import { DoubleBounce } from 'better-react-spinkit';
-import { fetchProjectNames } from '../actions/fetchDataAction';
-import '../css/Search.css';
 
 class Search extends Component {
   constructor() {
@@ -83,13 +84,13 @@ const mapStateToProps = (state) => {
     projectNames: state.fetchProjNamesReducer.projectNames,
     isProjectNamesLoading: state.fetchProjNamesReducer.projectNamesIsLoading,
     projectNameError: state.fetchProjNamesReducer.fetchProjectNameHasError
-  };
-};
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchProjectNames: () => dispatch(fetchProjectNames()),
-  };
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

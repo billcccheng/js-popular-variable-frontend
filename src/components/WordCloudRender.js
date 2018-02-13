@@ -1,12 +1,13 @@
+import { fetchWCProjectNames, fetchWCSingleProjectVariables } from "../actions/fetchDataAction";
+import { wcSimpleFilter, clearShowResultsTree } from "../actions/fetchDataAction";
+import "../css/WordCloudRender.css";
+
 import React, { Component } from "react";
 import Select from "react-select";
 import { TagCloud } from "react-tagcloud";
 import { connect } from "react-redux";
-import { DoubleBounce } from "better-react-spinkit"
-import { fetchWCProjectNames, fetchWCSingleProjectVariables } from "../actions/fetchDataAction";
-import { wcSimpleFilter, clearShowResultsTree } from "../actions/fetchDataAction";
+import { DoubleBounce } from "better-react-spinkit";
 import "react-select/dist/react-select.css";
-import "../css/WordCloudRender.css";
 
 class WordCloudRender extends Component {
   constructor() {
@@ -96,8 +97,8 @@ const mapStateToProps = (state) => {
     wcSavedProjects: Object.keys(state.wordCloudReducer.wcSavedData),
     wcShowResults: state.wordCloudReducer.wcShowData,
     wcIsLoading: state.wordCloudReducer.wcIsLoading
-  };
-};
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -105,6 +106,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchWCSingleProjectVariables: (project) => dispatch(fetchWCSingleProjectVariables(project)),
     wcSimpleFilter: (selectedProject, filter) => dispatch(wcSimpleFilter(selectedProject, filter)),
     clearShowResultsTree: () => dispatch(clearShowResultsTree())
-  };
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(WordCloudRender);

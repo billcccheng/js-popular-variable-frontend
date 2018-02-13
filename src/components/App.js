@@ -1,10 +1,11 @@
+import Analysis from "./Analysis";
 import Home from "./Home";
 import Filter from "./Filter";
-import Analysis from "./Analysis";
-import React, { Component } from "react";
 import WordCloudRender from "./WordCloudRender";
-import { Tabs, Tab } from "react-mdl/lib/Tabs";
 import "../css/App.css";
+
+import React, { Component } from "react";
+import { Tabs, Tab } from "react-mdl/lib/Tabs";
 
 class App extends Component {
   constructor(){

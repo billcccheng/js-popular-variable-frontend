@@ -1,8 +1,9 @@
+import { fetchProjectVariables, simpleFilter } from '../actions/fetchDataAction';
+import '../css/Results.css';
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { DoubleBounce } from 'better-react-spinkit'
-import { fetchProjectVariables, simpleFilter } from '../actions/fetchDataAction';
-import '../css/Results.css'
+import { DoubleBounce } from 'better-react-spinkit';
 
 class Results extends Component {
   constructor(){
@@ -89,13 +90,14 @@ const mapStateToProps = (state) => {
     filteredResults: state.fetchProjVarReducer.filteredResults,
     isLoading: state.fetchProjVarReducer.isLoading,
     hasError: state.fetchProjVarReducer.hasError
-  };
-};
+  }
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchProjectVariables: (projects, filters, unFetchedProjects) => dispatch(fetchProjectVariables(projects, filters, unFetchedProjects)),
     simpleFilter: (selectedProjects, filters) => dispatch(simpleFilter(selectedProjects, filters))
-  };
+  }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Results);
