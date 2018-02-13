@@ -31,12 +31,13 @@ class Search extends Component {
     }
   }
 
-  toggleChange = (checkedProject) => {
-    const indexOfProject = this.selectedProjects.indexOf(checkedProject.name);
+  toggleChange = (event) => {
+    const selectedProject = event.target.name;
+    const indexOfProject = this.selectedProjects.indexOf(selectedProject);
     if(indexOfProject !== -1) {
       this.selectedProjects = this.selectedProjects.filter((itm, i) => i !== indexOfProject);
     } else {
-      this.selectedProjects = this.selectedProjects.concat(checkedProject.name);
+      this.selectedProjects = this.selectedProjects.concat(selectedProject);
     }
   }
 
@@ -70,7 +71,7 @@ const ProjectCheckboxes = ({names, that}) => {
         <input
           name={name}
           type="checkbox"
-          onChange={that.toggleChange.bind(that, {name})}
+          onChange={that.toggleChange}
         />
         {name}
       </label></li>
